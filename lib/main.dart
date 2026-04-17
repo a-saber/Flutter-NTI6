@@ -29,19 +29,48 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Hello Flutter Flutter '),
-          Icon(Icons.warning),
-          Icon(Icons.warning, size: 50,),
-          SizedBox(height: 100,),
-          Row(
-            children: [
-              Text('row'),
-              Icon(Icons.warning, size: 50,),
 
-            ],
+          Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.black,
+                  width: 5
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black,
+                    Colors.black,
+                    Colors.white,
+
+                  ]
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue,
+                    blurRadius: 50,
+                    spreadRadius: 15,
+                    offset: Offset(10, 0)
+                  ),
+                  BoxShadow(
+                    color: Colors.green,
+                    blurRadius: 50,
+                    spreadRadius: 15,
+                    offset: Offset(-10, 0)
+                  ),
+
+                ]
+                // shape: BoxShape.circle
+              )
+            ),
           )
 
         ],
@@ -50,3 +79,4 @@ class HomeView extends StatelessWidget {
   }
 
 }
+
