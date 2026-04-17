@@ -80,3 +80,17 @@ class HomeView extends StatelessWidget {
 
 }
 
+// rectangle
+// color white
+// border grey
+// border radius 20
+// shadow black
+// gradient [blue, green]
+//
+//
+// Circle
+// color grey
+// border black
+// shadow grey
+// gradient [blue, green]
+
