@@ -33,45 +33,75 @@ class HomeView extends StatelessWidget {
         children: [
 
           Center(
-            child: Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.black,
-                  width: 5
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black,
-                    Colors.black,
-                    Colors.white,
-
-                  ]
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue,
+            child: Text(
+              'Hello ',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+                // backgroundColor: Colors.grey,
+                // decoration: TextDecoration.lineThrough,
+                // decorationColor: Colors.white,
+                // decorationThickness: 2,
+                // decorationStyle: TextDecorationStyle.dotted,
+                // overflow: TextOverflow.fade,
+                shadows: [
+                  Shadow(
+                    color: Colors.black,
                     blurRadius: 50,
-                    spreadRadius: 15,
-                    offset: Offset(10, 0)
-                  ),
-                  BoxShadow(
-                    color: Colors.green,
-                    blurRadius: 50,
-                    spreadRadius: 15,
-                    offset: Offset(-10, 0)
-                  ),
-
+                    offset: Offset(0, 0)
+                  )
                 ]
-                // shape: BoxShape.circle
-              )
+
+              ),
+
+              textAlign: TextAlign.end,
+              maxLines: 2,
             ),
-          )
+          ),
+
+          // Center(
+          //   child: Container(
+          //     height: 200,
+          //     width: 200,
+          //     decoration: BoxDecoration(
+          //       color: Colors.grey,
+          //       // borderRadius: BorderRadius.circular(20),
+          //       border: Border.all(
+          //         color: Colors.black,
+          //         width: 5
+          //       ),
+          //       shape: BoxShape.circle,
+          //       gradient: LinearGradient(
+          //         begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //         colors: [
+          //           Colors.black,
+          //           Colors.black,
+          //           Colors.white,
+          //
+          //         ]
+          //       ),
+          //       boxShadow: [
+          //         BoxShadow(
+          //           color: Colors.blue,
+          //           blurRadius: 50,
+          //           spreadRadius: 15,
+          //           offset: Offset(10, 0)
+          //         ),
+          //         BoxShadow(
+          //           color: Colors.green,
+          //           blurRadius: 50,
+          //           spreadRadius: 15,
+          //           offset: Offset(-10, 0)
+          //         ),
+          //
+          //       ]
+          //       // shape: BoxShape.circle
+          //     )
+          //   ),
+          // ),
+
 
         ],
       ),
