@@ -28,25 +28,21 @@ class HomeView extends StatelessWidget {
           SizedBox(width: 10,)
         ],
       ),
-      body: Column(
-        children: [
-          Text('Users: 10'),
-          SizedBox(height: 20,),
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => Icon(Icons.person, size: 50,),
-              itemCount: 10,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Users'),
+            SizedBox(height: 20,),
+            ListView.builder(
+              itemBuilder: (context, index){
+                return Text('Hello $index');
+              },
+              itemCount: 40,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) => UserContainer(),
-              itemCount: 10,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
