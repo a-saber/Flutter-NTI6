@@ -29,80 +29,23 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
-          Center(
-            child: Text(
-              'Hello ',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.w900,
-                // backgroundColor: Colors.grey,
-                // decoration: TextDecoration.lineThrough,
-                // decorationColor: Colors.white,
-                // decorationThickness: 2,
-                // decorationStyle: TextDecorationStyle.dotted,
-                // overflow: TextOverflow.fade,
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 50,
-                    offset: Offset(0, 0)
-                  )
-                ]
-
-              ),
-
-              textAlign: TextAlign.end,
-              maxLines: 2,
+          Text('Users: 10'),
+          SizedBox(height: 20,),
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => Icon(Icons.person, size: 50,),
+              itemCount: 10,
             ),
           ),
-
-          // Center(
-          //   child: Container(
-          //     height: 200,
-          //     width: 200,
-          //     decoration: BoxDecoration(
-          //       color: Colors.grey,
-          //       // borderRadius: BorderRadius.circular(20),
-          //       border: Border.all(
-          //         color: Colors.black,
-          //         width: 5
-          //       ),
-          //       shape: BoxShape.circle,
-          //       gradient: LinearGradient(
-          //         begin: Alignment.topCenter,
-          //         end: Alignment.bottomCenter,
-          //         colors: [
-          //           Colors.black,
-          //           Colors.black,
-          //           Colors.white,
-          //
-          //         ]
-          //       ),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.blue,
-          //           blurRadius: 50,
-          //           spreadRadius: 15,
-          //           offset: Offset(10, 0)
-          //         ),
-          //         BoxShadow(
-          //           color: Colors.green,
-          //           blurRadius: 50,
-          //           spreadRadius: 15,
-          //           offset: Offset(-10, 0)
-          //         ),
-          //
-          //       ]
-          //       // shape: BoxShape.circle
-          //     )
-          //   ),
-          // ),
-
-
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) => UserContainer(),
+              itemCount: 10,
+            ),
+          ),
         ],
       ),
     );
@@ -110,17 +53,91 @@ class HomeView extends StatelessWidget {
 
 }
 
-// rectangle
-// color white
-// border grey
-// border radius 20
-// shadow black
-// gradient [blue, green]
-//
-//
-// Circle
-// color grey
-// border black
-// shadow grey
-// gradient [blue, green]
+class UserContainer extends StatelessWidget {
+  const UserContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+          right: 20,
+          left: 10
+      ),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withValues(alpha: 0.5),
+                blurRadius: 10,
+                spreadRadius: 1
+            )
+          ]
+
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey
+            ),
+            child: Icon(Icons.person),
+          ),
+
+          SizedBox(width: 20,),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+            [
+              Text('Welcome',style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold
+              ),),
+              Text('Ahmed saber',style: TextStyle(
+                  fontSize: 20
+              ),),
+
+            ],
+          )
+
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
