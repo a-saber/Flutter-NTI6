@@ -17,6 +17,9 @@ class TestView extends StatelessWidget {
                 enabled: true,
                 obscureText: true,
                 obscuringCharacter: '*',
+                style: TextStyle(
+                  color: Color(0xffCEEBDC)
+                ),
 
                 decoration: InputDecoration(
                   filled: true,
