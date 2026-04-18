@@ -1,12 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/test_view.dart';
 
 void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomeView(),
+    home: TestView(),
   ));
 }
+
+
 
 
 class HomeView extends StatelessWidget {
@@ -28,21 +31,28 @@ class HomeView extends StatelessWidget {
           SizedBox(width: 10,)
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text('Users'),
-            SizedBox(height: 20,),
-            ListView.builder(
+      body: Column(
+        children: [
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 20,
+                itemBuilder: (context, index)=> Text('User $index')
+            ),
+          ),
+          SizedBox(height: 20,),
+          Expanded(
+            child: ListView.builder(
               itemBuilder: (context, index){
                 return Text('Hello $index');
               },
               itemCount: 40,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              // shrinkWrap: true,
+              // physics: NeverScrollableScrollPhysics(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
