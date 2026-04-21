@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nti6/test_view.dart';
 
 import 'register_view.dart';
+import 'test_stf.dart';
 
 void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: TestView(),
+    home: MyCheckBox(),
   ));
 }
 
