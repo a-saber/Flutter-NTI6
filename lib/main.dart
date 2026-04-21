@@ -1,16 +1,30 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_nti6/test_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'register_view.dart';
+import 'splash_view.dart';
 import 'test_stf.dart';
 
 void main(){
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyCheckBox(),
-  ));
+  runApp(MyApp());
 }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder:(_, child)=> MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashView(),
+      ),
+    );
+  }
+}
+
 
 
 
