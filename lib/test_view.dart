@@ -1,16 +1,25 @@
 
 import 'package:flutter/material.dart';
 
+/*
+UserModel
+widget icon + username
+out=> age
+*/
+
 class CountryModel{
   String name;
   String isoCode;
-  CountryModel({required this.name,required this.isoCode});
+  String phoneCode;
+  CountryModel({required this.name,required this.isoCode, required this.phoneCode});
 }
-
+// Egypt EG +20
+// Saudi Arabia SA +966
+// Kuwait KW +965
 List<CountryModel> countries= [
-  CountryModel(name: 'Egypt', isoCode: 'EG'),
-  CountryModel(name: 'Saudi-Arabia', isoCode: 'SA'),
-  CountryModel(name: 'Kuwait', isoCode: 'KW'),
+  CountryModel(name: 'Egypt', isoCode: 'EG', phoneCode: '+20'),
+  CountryModel(name: 'Saudi-Arabia', isoCode: 'SA', phoneCode: '+966'),
+  CountryModel(name: 'Kuwait', isoCode: 'KW', phoneCode: '+965'),
 ];
 
 class TestView extends StatelessWidget {
@@ -27,8 +36,8 @@ class TestView extends StatelessWidget {
             [
               DropdownButtonFormField(
                 items: countries.map((oldElement)=> DropdownMenuItem(
-                  value: oldElement.isoCode,
-                    child: Text(oldElement.name)))
+                  value: oldElement,
+                    child: Text('${oldElement.name} - ${oldElement.isoCode} - ${oldElement.phoneCode}')))
                     .toList(),
 
                 // List.generate(10, (index)=>  DropdownMenuItem(
@@ -56,7 +65,9 @@ class TestView extends StatelessWidget {
                 //   )),
                 // ],
                 onChanged: (value){
-                  print(value);
+                  print(value?.phoneCode);
+                  print(value?.name);
+                  print(value?.isoCode);
                 },
                 decoration: InputDecoration(
                   filled: true,
