@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 /*
 UserModel
@@ -47,6 +48,7 @@ class TestView extends StatelessWidget {
           child: Column(
             children: [
               DropdownButtonFormField(
+                // icon: SvgPicture.asset('assetName'),
                   items: users
                       .map((oldElement) => DropdownMenuItem(
                             value: oldElement.age,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'components/default_btn.dart';
+
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
 
@@ -72,28 +74,9 @@ class RegisterView extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Color(0xff149954),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0xff149954),
-                                  offset: Offset(0, 5),
-                                  blurRadius: 10,
-                                  spreadRadius: 0)
-                            ]),
-                        padding: EdgeInsets.symmetric(vertical: 12),
-                        child: Center(
-                          child: Text(
-                            'Register',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
+                    DefaultBtn(
+                      onTap: (){},
+                      text: 'Register',
                     ),
                     // SizedBox(
                     //   width: double.infinity,

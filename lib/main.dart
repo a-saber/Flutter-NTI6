@@ -19,7 +19,10 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder:(_, child)=> MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashView(),
+        theme: ThemeData(
+          fontFamily: 'Lexend_Deca'
+        ),
+        home: TestView(),
       ),
     );
   }
