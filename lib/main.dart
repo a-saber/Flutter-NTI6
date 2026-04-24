@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Lexend_Deca'
         ),
-        home: TestView(),
+        home: SplashView(),
       ),
     );
   }

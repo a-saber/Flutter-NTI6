@@ -1,9 +1,25 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/helper/custom_navigator.dart';
 
 import 'components/default_btn.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
+
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  final username = TextEditingController();
+
+  final password = TextEditingController();
+
+  final confirmPassword = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,141 +60,169 @@ class RegisterView extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 21),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    DefaultTextField(
-                      hintText: 'Username',
-                      prefixIconData: Icons.person,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DefaultTextField(
-                      hintText: 'Password',
-                      prefixIconData: Icons.key,
-                      suffixIcon: Icon(Icons.lock),
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DefaultTextField(
-                      hintText: 'Confirm Password',
-                      prefixIconData: Icons.key,
-                      suffixIcon: Icon(Icons.lock),
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    DefaultBtn(
-                      onTap: (){},
-                      text: 'Register',
-                    ),
-                    // SizedBox(
-                    //   width: double.infinity,
-                    //   child: ElevatedButton(
-                    //     style: ElevatedButton.styleFrom(
-                    //       backgroundColor: Color(0xff149954),
-                    //       foregroundColor: Colors.white,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(15)
-                    //       ),
-                    //       elevation: 10
-                    //
-                    //     ),
-                    //     onPressed: (){
-                    //       print('BTN Pressed');
-                    //     },
-                    //     child: Text('Register'),
-                    //   ),
-                    // )
-
-                    SizedBox(
-                      height: 40,
-                    ),
-
-                    TextButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already Have An Account?',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w200),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    // hello ahmed
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       'Hello my name is ahmed my age is 24 years old',
-                    //       style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize: 14,
-                    //           fontWeight: FontWeight.w400),
-                    //     ),
-                    //     Text(
-                    //       'Ahmed',
-                    //       style: TextStyle(
-                    //           color: Colors.blue,
-                    //           fontSize: 20,
-                    //           fontWeight: FontWeight.w400),
-                    //     ),
-                    //   ],
-                    // ),
-                    // RichText(text: TextSpan(
-                    //   children: [
-                    //     TextSpan(text: 'Hello my name is',
-                    //     style: TextStyle(
-                    //         color: Colors.black,
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.w400),
-                    //     ),
-                    //
-                    //     TextSpan(text: ' ahmed ',
-                    //     style: TextStyle(
-                    //         color: Colors.blue,
-                    //         fontSize: 20,
-                    //         fontWeight: FontWeight.bold),
-                    //     ),
-                    //
-                    //     TextSpan(text: 'my age is 24 years old',
-                    //       style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize: 14,
-                    //           fontWeight: FontWeight.w400),
-                    //     ),
-                    //   ]
-                    // )),
-                    // SizedBox(height: 100,)
-                  ],
+                      DefaultTextField(
+                        controller: username,
+                        hintText: 'Username',
+                        prefixIconData: Icons.person,
+                        validator: (String? value){
+                          // if(value == null || value.isEmpty){
+                          //   return 'This Field is Required';
+                          // }
+                          //
+                          // return null;
+
+                          // using regex
+                          var emailRegex = RegExp(r"^[a-zA-z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
+                          if(!emailRegex.hasMatch(value??'')){
+                            return 'Invalid Email';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      DefaultTextField(
+                        controller: password,
+                        hintText: 'Password',
+                        prefixIconData: Icons.key,
+                        suffixIcon: Icon(Icons.lock),
+                        obscureText: true,
+                        validator: (String? value){
+                          if(value == null || value.isEmpty){
+                            return 'This Field is Required';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      DefaultTextField(
+                        controller: confirmPassword,
+                        hintText: 'Confirm Password',
+                        prefixIconData: Icons.key,
+                        suffixIcon: Icon(Icons.lock),
+                        obscureText: true,
+                        validator: (String? value){
+                          if(value == null || value.isEmpty){
+                            return 'This Field is Required';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      isLoading ?
+                          CircularProgressIndicator():
+                      DefaultBtn(
+                        onTap: () {
+                          if(formKey.currentState?.validate()== true) {
+                            register(
+                                username: username.text,
+                                password: password.text
+                            );
+                          }
+                        },
+                        text: 'Register',
+                      ),
+
+                      SizedBox(
+                        height: 40,
+                      ),
+
+                      TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Already Have An Account?',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w200),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  register({
+    required String username,
+    required String password
+})async
+  {
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      Dio dio = Dio();
+      var response = await dio.post(
+        'https://ntitodo-production-b847.up.railway.app/api/register',
+        data: FormData.fromMap({
+          'username': username,
+          'password': password
+        })
+      );
+      var result = response.data as Map<String, dynamic>;
+      print(result['message']);
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(result['message'], style: TextStyle(color: Colors.white),))
+      );
+      // TODO: goTo(context, LoginView());
+    }
+    catch(e){
+      setState(() {
+        isLoading = false;
+      });
+      String errorMsg = 'Something went wrong';
+      if(e is DioException){
+        var errorResponse = e.response?.data as Map<String, dynamic>;
+        errorMsg = errorResponse['message'];
+        print(errorResponse['message']);
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+            content: Text(errorMsg, style: TextStyle(color: Colors.white),))
+      );
+    }
   }
 }
 
@@ -188,16 +232,24 @@ class DefaultTextField extends StatelessWidget {
       required this.hintText,
       this.prefixIconData,
       this.suffixIcon,
-      this.obscureText = false});
+      this.obscureText = false,
+        required this.controller,
+        this.validator
+      });
 
   final String hintText;
   final IconData? prefixIconData;
   final Widget? suffixIcon;
   final bool obscureText;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+      controller: controller,
       style: TextStyle(fontSize: 14, color: Colors.black),
       obscureText: obscureText,
       obscuringCharacter: '*',
