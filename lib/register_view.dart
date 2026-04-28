@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nti6/helper/custom_navigator.dart';
+import 'package:flutter_nti6/login_view.dart';
 
 import 'components/default_btn.dart';
+import 'components/default_flag_image.dart';
+import 'components/default_text_field.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -30,18 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    child: Image.asset(
-                      'assets/images/flag.png',
-                      height: MediaQuery.of(context).size.height * 0.37,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  DefaultFlagImage(),
                   Container(
                     decoration: BoxDecoration(
                         color: Color(0xff000000).withValues(alpha: 0.2),
@@ -65,8 +57,10 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
+                      DefaultTextField(
                         controller: username,
+                        hintText: 'Username',
+                        prefixIconData: Icons.person,
                         validator: (String? value){
                           // if(value == null || value.isEmpty){
                           //   return 'This Field is Required';
@@ -81,24 +75,15 @@ class _RegisterViewState extends State<RegisterView> {
                           }
                           return null;
                         },
-                        decoration: InputDecoration(
-
-                          hintText: 'Username',
-                          prefixIcon: Icon(Icons.person),
-                        ),
-
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
+                      DefaultTextField(
                         controller: password,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          prefixIcon: Icon(Icons.key),
-                          suffixIcon: Icon(Icons.lock),
-                        ),
-
+                        hintText: 'Password',
+                        prefixIconData: Icons.key,
+                        suffixIcon: Icon(Icons.lock),
                         obscureText: true,
                         validator: (String? value){
                           if(value == null || value.isEmpty){
@@ -115,14 +100,11 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
+                      DefaultTextField(
                         controller: confirmPassword,
-                        decoration: InputDecoration(
-
-                          hintText: 'Confirm Password',
-                          prefixIcon: Icon(Icons.key),
-                          suffixIcon: Icon(Icons.lock),
-                        ),
+                        hintText: 'Confirm Password',
+                        prefixIconData: Icons.key,
+                        suffixIcon: Icon(Icons.lock),
                         obscureText: true,
                         validator: (String? value){
                           if(value == null || value.isEmpty){
@@ -155,7 +137,9 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
 
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          goTo(context, LoginView());
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

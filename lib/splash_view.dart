@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nti6/helper/custom_navigator.dart';
+import 'package:flutter_nti6/home_view.dart';
 import 'package:flutter_nti6/register_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'start_view.dart';
 
@@ -20,8 +22,11 @@ class SplashViewState extends State<SplashView> {
   void initState() {
     Future.delayed(Duration(
       seconds: 2
-    )).then((v){
-      goTo(context, LetStartView(), NavigatorType.pushReplacement);
+    )).then((v) async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? accessToken = prefs.getString('access_token');
+      goTo(context, accessToken != null? HomeView():LetStartView(), NavigatorType.pushReplacement);
+
     });
     super.initState();
   }
