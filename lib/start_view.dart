@@ -6,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 
 import 'components/default_btn.dart';
 
-class LetStart extends StatelessWidget {
-  const LetStart({super.key});
+class LetStartView extends StatelessWidget {
+  const LetStartView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class LetStart extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             DefaultBtn(
-              text: 'Get Started',
-              onTap: () {
-                goTo(context, RegisterView(), NavigatorType.pushReplacement);
+              text: "Let's Start",
+              onTap: (){
+                goTo(context, RegisterView());
               },
             )
           ],
@@ -51,3 +51,4 @@ class LetStart extends StatelessWidget {
     );
   }
 }
+

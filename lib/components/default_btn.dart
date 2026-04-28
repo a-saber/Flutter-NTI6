@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DefaultBtn extends StatelessWidget {
-  const DefaultBtn({super.key, required this.onTap, required this.text});
-
-  final void Function()? onTap;
+  const DefaultBtn({super.key,
+    required this.text,
+    required this.onTap
+  });
+  final  void Function()? onTap;
   final String text;
   @override
   Widget build(BuildContext context) {

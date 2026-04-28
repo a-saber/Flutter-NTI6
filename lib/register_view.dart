@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nti6/helper/custom_navigator.dart';
 
 import 'components/default_btn.dart';
-import 'components/default_text_field.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -66,10 +65,8 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 20,
                       ),
-                      DefaultTextField(
+                      TextFormField(
                         controller: username,
-                        hintText: 'Username',
-                        prefixIconData: Icons.person,
                         validator: (String? value){
                           // if(value == null || value.isEmpty){
                           //   return 'This Field is Required';
@@ -84,15 +81,24 @@ class _RegisterViewState extends State<RegisterView> {
                           }
                           return null;
                         },
+                        decoration: InputDecoration(
+
+                          hintText: 'Username',
+                          prefixIcon: Icon(Icons.person),
+                        ),
+
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      DefaultTextField(
+                      TextFormField(
                         controller: password,
-                        hintText: 'Password',
-                        prefixIconData: Icons.key,
-                        suffixIcon: Icon(Icons.lock),
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          prefixIcon: Icon(Icons.key),
+                          suffixIcon: Icon(Icons.lock),
+                        ),
+
                         obscureText: true,
                         validator: (String? value){
                           if(value == null || value.isEmpty){
@@ -109,11 +115,14 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 10,
                       ),
-                      DefaultTextField(
+                      TextFormField(
                         controller: confirmPassword,
-                        hintText: 'Confirm Password',
-                        prefixIconData: Icons.key,
-                        suffixIcon: Icon(Icons.lock),
+                        decoration: InputDecoration(
+
+                          hintText: 'Confirm Password',
+                          prefixIcon: Icon(Icons.key),
+                          suffixIcon: Icon(Icons.lock),
+                        ),
                         obscureText: true,
                         validator: (String? value){
                           if(value == null || value.isEmpty){
