@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nti6/helper/custom_navigator.dart';
 
 import 'components/default_btn.dart';
+import 'components/default_text_field.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -13,9 +14,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final username = TextEditingController();
-
   final password = TextEditingController();
-
   final confirmPassword = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
@@ -79,7 +78,7 @@ class _RegisterViewState extends State<RegisterView> {
                           // return null;
 
                           // using regex
-                          var emailRegex = RegExp(r"^[a-zA-z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
+                          var emailRegex = RegExp(r"^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
                           if(!emailRegex.hasMatch(value??'')){
                             return 'Invalid Email';
                           }
@@ -98,6 +97,10 @@ class _RegisterViewState extends State<RegisterView> {
                         validator: (String? value){
                           if(value == null || value.isEmpty){
                             return 'This Field is Required';
+                          }
+
+                          else if(value.length <6){
+                            return 'Password must be at least 6 characters';
                           }
 
                           return null;
@@ -128,6 +131,7 @@ class _RegisterViewState extends State<RegisterView> {
                       DefaultBtn(
                         onTap: () {
                           if(formKey.currentState?.validate()== true) {
+                            // call api request
                             register(
                                 username: username.text,
                                 password: password.text
@@ -223,55 +227,5 @@ class _RegisterViewState extends State<RegisterView> {
             content: Text(errorMsg, style: TextStyle(color: Colors.white),))
       );
     }
-  }
-}
-
-class DefaultTextField extends StatelessWidget {
-  const DefaultTextField(
-      {super.key,
-      required this.hintText,
-      this.prefixIconData,
-      this.suffixIcon,
-      this.obscureText = false,
-        required this.controller,
-        this.validator
-      });
-
-  final String hintText;
-  final IconData? prefixIconData;
-  final Widget? suffixIcon;
-  final bool obscureText;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
-      controller: controller,
-      style: TextStyle(fontSize: 14, color: Colors.black),
-      obscureText: obscureText,
-      obscuringCharacter: '*',
-      decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Color(0xffCDCDCD), width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Color(0xffCDCDCD), width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Color(0xff149954), width: 1),
-          ),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Color(0xff6E6A7C), fontSize: 14),
-          prefixIcon: Icon(prefixIconData),
-          suffixIcon: suffixIcon),
-    );
   }
 }
