@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'splash_view.dart';
+import 'features/onboarding/views/splash_view.dart';
 
 void main(){
   runApp(MyApp());
@@ -17,8 +17,20 @@ class MyApp extends StatelessWidget{
       builder: (context, child) {
         return MaterialApp(
           home: SplashView(),
+          // home: MainLayout(),
         );
       }
     );
   }
 }
+
+
+
+/*
+
+  MVVM
+   M: Model,
+   V: View,
+   VM: ViewModel
+
+*/

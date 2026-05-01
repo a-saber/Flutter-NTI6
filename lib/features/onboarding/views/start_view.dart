@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nti6/helper/custom_navigator.dart';
-import 'package:flutter_nti6/register_view.dart';
+import 'package:flutter_nti6/core/components/custom_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'components/default_btn.dart';
+import '../../../core/components/default_btn.dart';
+import '../../../core/helper/custom_navigator.dart';
+import '../../auth/views/register_view.dart';
 
 class LetStartView extends StatelessWidget {
   const LetStartView({super.key});
@@ -18,8 +19,8 @@ class LetStartView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SvgPicture.asset(
-              'assets/images/vector.svg',
+            CustomSvg(
+              imagePath: 'assets/images/vector.svg',
               height: 340.h,
               width: 300.w,
             ),

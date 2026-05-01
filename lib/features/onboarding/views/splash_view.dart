@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_nti6/helper/custom_navigator.dart';
-import 'package:flutter_nti6/home_view.dart';
-import 'package:flutter_nti6/register_view.dart';
+import 'package:flutter_nti6/core/components/custom_svg.dart';
+import 'package:flutter_nti6/core/helper/custom_navigator.dart';
+import 'package:flutter_nti6/features/home/views/home_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'start_view.dart';
@@ -39,9 +38,10 @@ class SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/images/logo.svg',
-              height: 300,
-              width: 300,
+            CustomSvg(
+              imagePath: 'assets/images/logo.svg',
+              height: 343.h,
+              width: 334.w,
             ),
             SizedBox(height: 50,),
             Text('ToDo')

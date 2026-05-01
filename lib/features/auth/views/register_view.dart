@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nti6/helper/custom_navigator.dart';
-import 'package:flutter_nti6/login_view.dart';
+import 'package:flutter_nti6/features/auth/views/login_view.dart';
 
-import 'components/default_btn.dart';
-import 'components/default_flag_image.dart';
-import 'components/default_text_field.dart';
+import '../../../core/components/default_btn.dart';
+import '../../../core/components/default_flag_image.dart';
+import '../../../core/components/default_text_field.dart';
+import '../../../core/helper/custom_navigator.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});

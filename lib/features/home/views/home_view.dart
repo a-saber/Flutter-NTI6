@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nti6/helper/custom_navigator.dart';
-import 'package:flutter_nti6/login_view.dart';
+import 'package:flutter_nti6/features/auth/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../core/helper/custom_navigator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -56,6 +57,7 @@ class _HomeViewState extends State<HomeView> {
         isLoading = true;
       });
       Dio dio = Dio();
+
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       var accessToken = prefs.getString('access_token');
       var result = await dio.get(
@@ -64,7 +66,8 @@ class _HomeViewState extends State<HomeView> {
           headers: {
             'Authorization': 'Bearer $accessToken'
           }
-        )
+        ),
+
       );
       var tasksResponse = result.data as Map<String, dynamic>;
       setState(() {
