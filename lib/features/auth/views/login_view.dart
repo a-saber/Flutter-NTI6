@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/cache/cache_helper.dart';
+import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/network/api_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,8 +46,8 @@ class _LoginViewState extends State<LoginView> {
                   DefaultTextField(
                     controller: username,
                     hintText: 'Username',
-                    validator: (String? value){
-                      if(value == null || value.isEmpty){
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter username';
                       }
                       return null;
@@ -57,8 +59,8 @@ class _LoginViewState extends State<LoginView> {
                   DefaultTextField(
                     controller: password,
                     hintText: 'Password',
-                    validator: (String? value){
-                      if(value == null || value.isEmpty){
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
                       return null;
@@ -67,13 +69,15 @@ class _LoginViewState extends State<LoginView> {
                   SizedBox(
                     height: 40,
                   ),
-                  isLoading ?
-                      CircularProgressIndicator():
-                  DefaultBtn(text: 'Login', onTap: () {
-                    if(formKey.currentState?.validate()== true) {
-                      login2();
-                    }
-                  })
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : DefaultBtn(
+                          text: 'Login',
+                          onTap: () {
+                            if (formKey.currentState?.validate() == true) {
+                              login();
+                            }
+                          })
                 ],
               ),
             ),
@@ -83,101 +87,51 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  login()async
-  {
+  login() async {
     setState(() {
       isLoading = true;
     });
-    try{
-      Dio dio = Dio(); // done
-      var response = await dio.post(
-          'https://ntitodo-production-b847.up.railway.app/api/login',
-          data: FormData.fromMap({
-            'username': username.text,
-            'password': password.text
-          })
-      );
-      print(response.data.toString());
-      var result = response.data as Map<String, dynamic>;
-      String accessToken = result['access_token'];
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('access_token', accessToken);
 
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('Login Success', style: TextStyle(color: Colors.white),))
-      );
-      // TODO: goTo(context, HomeView());
-      goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
-    }
-    catch(e){
-      print(e.toString());
-      setState(() {
-        isLoading = false;
-      });
-      String errorMsg = 'Something went wrong';
-      if(e is DioException){
-        var errorResponse = e.response?.data as Map<String, dynamic>;
-        errorMsg = errorResponse['message'];
-        print(errorResponse['message']);
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(errorMsg, style: TextStyle(color: Colors.white),))
-      );
-    }
-  }
-  login2()async
-  {
-    setState(() {
-      isLoading = true;
-    });
-    try{
-      var response = await ApiHelper.post(
-        endPoint: 'login',
-          data: {
-            'username': username.text,
-            'password': password.text
-          },
-      );
-      print(response.data.toString());
-      var result = response.data as Map<String, dynamic>;
-      String accessToken = result['access_token'];
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('access_token', accessToken);
+    // right
+    var response = await ApiHelper.post(
+      endPoint: 'login',
+      data: {'username': username.text, 'password': password.text},
+    );
+    response.fold(
+      (error) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              error,
+              style: TextStyle(color: Colors.white),
+            )));
+      },
+      (map)async {
+        await CacheHelper.setValue(
+          key: CacheKeys.accessToken,
+          value: map[CacheKeys.accessToken]
+        );
+        await CacheHelper.setValue(
+          key: CacheKeys.refreshToken,
+          value: map[CacheKeys.refreshToken]
+        );
 
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('Login Success', style: TextStyle(color: Colors.white),))
-      );
-      // TODO: goTo(context, HomeView());
-      goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
-    }
-    catch(e){
-      print(e.toString());
-      setState(() {
-        isLoading = false;
-      });
-      String errorMsg = 'Something went wrong';
-      if(e is DioException){
-        var errorResponse = e.response?.data as Map<String, dynamic>;
-        errorMsg = errorResponse['message'];
-        print(errorResponse['message']);
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              'Login Success',
+              style: TextStyle(color: Colors.white),
+            )));
+        // TODO: goTo(context, HomeView());
+        goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(errorMsg, style: TextStyle(color: Colors.white),))
-      );
-    }
+    );
+
   }
 }

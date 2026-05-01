@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/cache/cache_helper.dart';
+import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/components/custom_svg.dart';
 import 'package:flutter_nti6/core/helper/custom_navigator.dart';
 import 'package:flutter_nti6/features/home/views/home_view.dart';
@@ -22,8 +24,7 @@ class SplashViewState extends State<SplashView> {
     Future.delayed(Duration(
       seconds: 2
     )).then((v) async{
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? accessToken = prefs.getString('access_token');
+      String? accessToken = CacheHelper.getValue(CacheKeys.accessToken) as String?;
       goTo(context, accessToken != null? HomeView():LetStartView(), NavigatorType.pushReplacement);
 
     });

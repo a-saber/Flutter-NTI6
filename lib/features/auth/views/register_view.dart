@@ -1,5 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/network/api_helper.dart';
+import 'package:flutter_nti6/core/network/end_points.dart';
 import 'package:flutter_nti6/features/auth/views/login_view.dart';
 
 import '../../../core/components/default_btn.dart';
@@ -61,7 +62,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: username,
                         hintText: 'Username',
                         prefixIconData: Icons.person,
-                        validator: (String? value){
+                        validator: (String? value) {
                           // if(value == null || value.isEmpty){
                           //   return 'This Field is Required';
                           // }
@@ -69,8 +70,9 @@ class _RegisterViewState extends State<RegisterView> {
                           // return null;
 
                           // using regex
-                          var emailRegex = RegExp(r"^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
-                          if(!emailRegex.hasMatch(value??'')){
+                          var emailRegex = RegExp(
+                              r"^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
+                          if (!emailRegex.hasMatch(value ?? '')) {
                             return 'Invalid Email';
                           }
                           return null;
@@ -85,12 +87,10 @@ class _RegisterViewState extends State<RegisterView> {
                         prefixIconData: Icons.key,
                         suffixIcon: Icon(Icons.lock),
                         obscureText: true,
-                        validator: (String? value){
-                          if(value == null || value.isEmpty){
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
                             return 'This Field is Required';
-                          }
-
-                          else if(value.length <6){
+                          } else if (value.length < 6) {
                             return 'Password must be at least 6 characters';
                           }
 
@@ -106,8 +106,8 @@ class _RegisterViewState extends State<RegisterView> {
                         prefixIconData: Icons.key,
                         suffixIcon: Icon(Icons.lock),
                         obscureText: true,
-                        validator: (String? value){
-                          if(value == null || value.isEmpty){
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
                             return 'This Field is Required';
                           }
 
@@ -117,25 +117,22 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 20,
                       ),
-                      isLoading ?
-                          CircularProgressIndicator():
-                      DefaultBtn(
-                        onTap: () {
-                          if(formKey.currentState?.validate()== true) {
-                            // call api request
-                            register(
-                                username: username.text,
-                                password: password.text
-                            );
-                          }
-                        },
-                        text: 'Register',
-                      ),
-
+                      isLoading
+                          ? CircularProgressIndicator()
+                          : DefaultBtn(
+                              onTap: () {
+                                if (formKey.currentState?.validate() == true) {
+                                  // call api request
+                                  register(
+                                      username: username.text,
+                                      password: password.text);
+                                }
+                              },
+                              text: 'Register',
+                            ),
                       SizedBox(
                         height: 40,
                       ),
-
                       TextButton(
                         onPressed: () {
                           goTo(context, LoginView());
@@ -175,50 +172,39 @@ class _RegisterViewState extends State<RegisterView> {
         ));
   }
 
-  register({
-    required String username,
-    required String password
-})async
-  {
+  register({required String username, required String password}) async {
     setState(() {
       isLoading = true;
     });
-    try{
-      Dio dio = Dio();
-      var response = await dio.post(
-        'https://ntitodo-production-b847.up.railway.app/api/register',
-        data: FormData.fromMap({
-          'username': username,
-          'password': password
-        })
-      );
-      var result = response.data as Map<String, dynamic>;
-      print(result['message']);
+
+    var response = await ApiHelper.post(
+        endPoint: EndPoints.register,
+        data: {'username': username, 'password': password});
+
+    response.fold((error) {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(result['message'], style: TextStyle(color: Colors.white),))
-      );
-      // TODO: goTo(context, LoginView());
-    }
-    catch(e){
-      setState(() {
-        isLoading = false;
-      });
-      String errorMsg = 'Something went wrong';
-      if(e is DioException){
-        var errorResponse = e.response?.data as Map<String, dynamic>;
-        errorMsg = errorResponse['message'];
-        print(errorResponse['message']);
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
-            content: Text(errorMsg, style: TextStyle(color: Colors.white),))
-      );
-    }
+          content: Text(
+            error,
+            style: TextStyle(color: Colors.white),
+          )));
+    },
+      (map) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              map['message'],
+              style: TextStyle(color: Colors.white),
+            )));
+        goTo(context, LoginView());
+      }
+    );
+
   }
 }
