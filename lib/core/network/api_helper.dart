@@ -27,8 +27,10 @@ abstract class ApiHelper {
     onError: (error, handler)async {
       print('ERROR[${error.response?.statusCode}] => PATH: ${error.requestOptions.path}');
       print('DATA: ${error.response?.data}');
-
-      String? errorMsg = (error.response?.data as Map<String, dynamic>)['message'];
+      String? errorMsg;
+      if(error.response?.data is Map<String, dynamic>){
+        errorMsg = (error.response?.data as Map<String, dynamic>)['message'];
+      }
       // handle access token expired error
       if(errorMsg?.contains('Token has expired.') == true){
         // implement refresh token request
