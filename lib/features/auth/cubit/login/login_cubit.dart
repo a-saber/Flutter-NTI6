@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_nti6/features/auth/cubit/login/login_state.dart';
 import 'package:flutter_nti6/features/auth/data/repo/auth_repo.dart';
@@ -5,16 +6,17 @@ import 'package:flutter_nti6/features/auth/data/repo/auth_repo.dart';
 class LoginCubit extends Cubit<LoginState>{
   LoginCubit() : super(LoginInitialState());
   final AuthRepo repo = AuthRepo();
-  onLoginPressed(
-  {
-    required String username,
-    required String password
-}
-      ) async{
+  static LoginCubit get(context) => BlocProvider.of<LoginCubit>(context);
+
+  final username = TextEditingController();
+  final password = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+
+  onLoginPressed( ) async{
     emit(LoginLoadingState());
     var result = await repo.login(
-      username: username,
-      password: password
+      username: username.text,
+      password: password.text
     );
     result.fold(
         (error){

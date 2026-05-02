@@ -30,60 +30,64 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            DefaultFlagImage(),
-            SizedBox(
-              height: 20,
+    return Builder(
+      builder: (context) {
+        return Scaffold(
+          body: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                DefaultFlagImage(),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      DefaultTextField(
+                        controller: username,
+                        hintText: 'Username',
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter username';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      DefaultTextField(
+                        controller: password,
+                        hintText: 'Password',
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter password';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      isLoading
+                          ? CircularProgressIndicator()
+                          : DefaultBtn(
+                              text: 'Login',
+                              onTap: () {
+                                if (formKey.currentState?.validate() == true) {
+                                  // login();
+                                }
+                              })
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  DefaultTextField(
-                    controller: username,
-                    hintText: 'Username',
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter username';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  DefaultTextField(
-                    controller: password,
-                    hintText: 'Password',
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter password';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  isLoading
-                      ? CircularProgressIndicator()
-                      : DefaultBtn(
-                          text: 'Login',
-                          onTap: () {
-                            if (formKey.currentState?.validate() == true) {
-                              // login();
-                            }
-                          })
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 
