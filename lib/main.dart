@@ -6,8 +6,6 @@ import 'features/onboarding/views/splash_view.dart';
 
 void main()async{
 
-
-
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   runApp(MyApp());

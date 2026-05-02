@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/network/api_helper.dart';
+import 'package:flutter_nti6/core/network/end_points.dart';
 import 'package:flutter_nti6/features/auth/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,48 +54,39 @@ class _HomeViewState extends State<HomeView> {
   }
 
   getTasks()async{
-    try{
+
       setState(() {
         isLoading = true;
       });
-      Dio dio = Dio();
 
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      var accessToken = prefs.getString('access_token');
-      var result = await dio.get(
-        'https://ntitodo-production-b847.up.railway.app/api/my_tasks',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $accessToken'
+      var result = await ApiHelper.get(
+        endPoint: EndPoints.myTasks,
+        isProtected: true
+
+      );
+      result.fold(
+          (errorMsg){
+            setState(() {
+              isLoading = false;
+            });
+
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(errorMsg, style: TextStyle(color: Colors.white),))
+            );
+          },
+          (map){
+            setState(() {
+              tasks = List.generate(map['tasks'].length, (index)=>
+              map['tasks'][index]);
+              isLoading = false;
+            });
           }
-        ),
-
       );
-      var tasksResponse = result.data as Map<String, dynamic>;
-      setState(() {
-        tasks = List.generate(tasksResponse['tasks'].length, (index)=>
-            tasksResponse['tasks'][index]);
-        isLoading = false;
-      });
 
-    }
-    catch(e){
-      print(e.toString());
-      setState(() {
-        isLoading = false;
-      });
-      String errorMsg = 'Something went wrong';
-      if(e is DioException){
-        var errorResponse = e.response?.data as Map<String, dynamic>;
-        errorMsg = errorResponse['message'];
-        print(errorResponse['message']);
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(errorMsg, style: TextStyle(color: Colors.white),))
-      );
-    }
+
+
   }
 }
 
