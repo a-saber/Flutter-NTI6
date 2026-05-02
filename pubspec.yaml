@@ -39,6 +39,7 @@ dependencies:
   dio:
   shared_preferences:
   dartz:
+  flutter_bloc: 
 
 dev_dependencies:
   flutter_test:
