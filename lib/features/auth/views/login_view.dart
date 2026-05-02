@@ -75,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
                           text: 'Login',
                           onTap: () {
                             if (formKey.currentState?.validate() == true) {
-                              login();
+                              // login();
                             }
                           })
                 ],
@@ -87,51 +87,51 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  login() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    // right
-    var response = await ApiHelper.post(
-      endPoint: 'login',
-      data: {'username': username.text, 'password': password.text},
-    );
-    response.fold(
-      (error) {
-        setState(() {
-          isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              error,
-              style: TextStyle(color: Colors.white),
-            )));
-      },
-      (map)async {
-        await CacheHelper.setValue(
-          key: CacheKeys.accessToken,
-          value: map[CacheKeys.accessToken]
-        );
-        await CacheHelper.setValue(
-          key: CacheKeys.refreshToken,
-          value: map[CacheKeys.refreshToken]
-        );
-
-        setState(() {
-          isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              'Login Success',
-              style: TextStyle(color: Colors.white),
-            )));
-        // TODO: goTo(context, HomeView());
-        goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
-      }
-    );
-
-  }
+  // login() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //
+  //   // right
+  //   var response = await ApiHelper.post(
+  //     endPoint: 'login',
+  //     data: {'username': username.text, 'password': password.text},
+  //   );
+  //   response.fold(
+  //     (error) {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           backgroundColor: Colors.red,
+  //           content: Text(
+  //             error,
+  //             style: TextStyle(color: Colors.white),
+  //           )));
+  //     },
+  //     (map)async {
+  //       await CacheHelper.setValue(
+  //         key: CacheKeys.accessToken,
+  //         value: map[CacheKeys.accessToken]
+  //       );
+  //       await CacheHelper.setValue(
+  //         key: CacheKeys.refreshToken,
+  //         value: map[CacheKeys.refreshToken]
+  //       );
+  //
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           backgroundColor: Colors.green,
+  //           content: Text(
+  //             'Login Success',
+  //             style: TextStyle(color: Colors.white),
+  //           )));
+  //       // TODO: goTo(context, HomeView());
+  //       goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
+  //     }
+  //   );
+  //
+  // }
 }

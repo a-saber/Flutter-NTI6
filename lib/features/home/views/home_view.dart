@@ -18,7 +18,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
-    getTasks();
+    // getTasks();
     super.initState();
   }
 
@@ -53,41 +53,41 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  getTasks()async{
-
-      setState(() {
-        isLoading = true;
-      });
-
-      var result = await ApiHelper.get(
-        endPoint: EndPoints.myTasks,
-        isProtected: true
-
-      );
-      result.fold(
-          (errorMsg){
-            setState(() {
-              isLoading = false;
-            });
-
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text(errorMsg, style: TextStyle(color: Colors.white),))
-            );
-          },
-          (map){
-            setState(() {
-              tasks = List.generate(map['tasks'].length, (index)=>
-              map['tasks'][index]);
-              isLoading = false;
-            });
-          }
-      );
-
-
-
-  }
+  // getTasks()async{
+  //
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //
+  //     var result = await ApiHelper.get(
+  //       endPoint: EndPoints.myTasks,
+  //       isProtected: true
+  //
+  //     );
+  //     result.fold(
+  //         (errorMsg){
+  //           setState(() {
+  //             isLoading = false;
+  //           });
+  //
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //               SnackBar(
+  //                   backgroundColor: Colors.red,
+  //                   content: Text(errorMsg, style: TextStyle(color: Colors.white),))
+  //           );
+  //         },
+  //         (map){
+  //           setState(() {
+  //             tasks = List.generate(map['tasks'].length, (index)=>
+  //             map['tasks'][index]);
+  //             isLoading = false;
+  //           });
+  //         }
+  //     );
+  //
+  //
+  //
+  // }
 }
 
 class TaskItemBuilder extends StatelessWidget {

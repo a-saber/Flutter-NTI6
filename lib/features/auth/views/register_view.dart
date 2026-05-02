@@ -123,9 +123,9 @@ class _RegisterViewState extends State<RegisterView> {
                               onTap: () {
                                 if (formKey.currentState?.validate() == true) {
                                   // call api request
-                                  register(
-                                      username: username.text,
-                                      password: password.text);
+                                  // register(
+                                  //     username: username.text,
+                                  //     password: password.text);
                                 }
                               },
                               text: 'Register',
@@ -172,39 +172,39 @@ class _RegisterViewState extends State<RegisterView> {
         ));
   }
 
-  register({required String username, required String password}) async {
-    setState(() {
-      isLoading = true;
-    });
-
-    var response = await ApiHelper.post(
-        endPoint: EndPoints.register,
-        data: {'username': username, 'password': password});
-
-    response.fold((error) {
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            error,
-            style: TextStyle(color: Colors.white),
-          )));
-    },
-      (map) {
-        setState(() {
-          isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              map['message'],
-              style: TextStyle(color: Colors.white),
-            )));
-        goTo(context, LoginView());
-      }
-    );
-
-  }
+  // register({required String username, required String password}) async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //
+  //   var response = await ApiHelper.post(
+  //       endPoint: EndPoints.register,
+  //       data: {'username': username, 'password': password});
+  //
+  //   response.fold((error) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //         backgroundColor: Colors.red,
+  //         content: Text(
+  //           error,
+  //           style: TextStyle(color: Colors.white),
+  //         )));
+  //   },
+  //     (map) {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           backgroundColor: Colors.green,
+  //           content: Text(
+  //             map['message'],
+  //             style: TextStyle(color: Colors.white),
+  //           )));
+  //       goTo(context, LoginView());
+  //     }
+  //   );
+  //
+  // }
 }
