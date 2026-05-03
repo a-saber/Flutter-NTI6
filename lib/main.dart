@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import 'core/cache/cache_helper.dart';
+import 'core/translation/translation_helper.dart';
 import 'features/onboarding/views/splash_view.dart';
 
 void main()async{
@@ -16,10 +19,13 @@ class MyApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    String? lang = CacheHelper.getValue(CacheKeys.lang) as String?;
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
+          translations: TranslationHelper(),
+          locale: Locale( lang ?? 'en'),
           home: SplashView(),
           // home: MainLayout(),
         );

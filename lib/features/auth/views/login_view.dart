@@ -6,6 +6,7 @@ import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/network/api_helper.dart';
 import 'package:flutter_nti6/features/auth/cubit/login/login_cubit.dart';
 import 'package:flutter_nti6/features/auth/cubit/login/login_state.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/components/default_btn.dart';
@@ -37,7 +38,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       DefaultTextField(
                         controller: LoginCubit.get(context).username,
-                        hintText: 'Username',
+                        hintText: 'username'.tr,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter username';
@@ -50,7 +51,7 @@ class LoginView extends StatelessWidget {
                       ),
                       DefaultTextField(
                         controller: LoginCubit.get(context).password,
-                        hintText: 'Password',
+                        hintText: 'password'.tr,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter password';
@@ -88,7 +89,7 @@ class LoginView extends StatelessWidget {
                             return CircularProgressIndicator();
                           }
                           return DefaultBtn(
-                              text: 'Login',
+                              text: 'login'.tr,
                               onTap: LoginCubit.get(context).onLoginPressed);
                         },
                       )
