@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/translation/translation_helper.dart';
 import 'features/onboarding/views/splash_view.dart';
+import 'test_maps.dart';
 
 void main()async{
 
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget{
         return GetMaterialApp(
           translations: TranslationHelper(),
           locale: Locale( lang ?? 'en'),
-          home: SplashView(),
-          // home: MainLayout(),
+          // home: SplashView(),
+          home: TestMaps(),
         );
       }
     );

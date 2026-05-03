@@ -41,6 +41,8 @@ dependencies:
   dartz:
   flutter_bloc:
   get:
+  google_maps_flutter:
+  geolocator: ^13.0.2
 
 dev_dependencies:
   flutter_test:
