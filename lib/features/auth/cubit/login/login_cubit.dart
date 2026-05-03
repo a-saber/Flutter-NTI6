@@ -6,13 +6,14 @@ import 'package:flutter_nti6/features/auth/data/repo/auth_repo.dart';
 class LoginCubit extends Cubit<LoginState>{
   LoginCubit() : super(LoginInitialState());
   final AuthRepo repo = AuthRepo();
-  static LoginCubit get(context) => BlocProvider.of<LoginCubit>(context);
+  static LoginCubit get(context) => BlocProvider.of(context);
 
   final username = TextEditingController();
   final password = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   onLoginPressed( ) async{
+    // TODO: add validation
     emit(LoginLoadingState());
     var result = await repo.login(
       username: username.text,

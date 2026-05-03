@@ -1,5 +1,5 @@
 class UserModel{
-  String? id;
+  int? id;
   String? imagePath;
   String? username;
 

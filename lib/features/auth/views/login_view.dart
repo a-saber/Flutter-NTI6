@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_nti6/core/cache/cache_helper.dart';
 import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/network/api_helper.dart';
+import 'package:flutter_nti6/features/auth/cubit/login/login_cubit.dart';
+import 'package:flutter_nti6/features/auth/cubit/login/login_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/components/default_btn.dart';
@@ -11,30 +14,17 @@ import '../../../core/components/default_text_field.dart';
 import '../../../core/helper/custom_navigator.dart';
 import '../../home/views/home_view.dart';
 
-class LoginView extends StatefulWidget {
+class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  // Controllers
-  final username = TextEditingController();
-  final password = TextEditingController();
-
-  // formKey
-  final formKey = GlobalKey<FormState>();
-
-  bool isLoading = false;
-
-  @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return Scaffold(
-          body: Form(
-            key: formKey,
+    return BlocProvider(
+      create: (context) => LoginCubit(),
+      child: Scaffold(
+        body: Builder(builder: (context) {
+          return Form(
+            key: LoginCubit.get(context).formKey,
             child: Column(
               children: [
                 DefaultFlagImage(),
@@ -46,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     children: [
                       DefaultTextField(
-                        controller: username,
+                        controller: LoginCubit.get(context).username,
                         hintText: 'Username',
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -59,7 +49,7 @@ class _LoginViewState extends State<LoginView> {
                         height: 20,
                       ),
                       DefaultTextField(
-                        controller: password,
+                        controller: LoginCubit.get(context).password,
                         hintText: 'Password',
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -71,71 +61,46 @@ class _LoginViewState extends State<LoginView> {
                       SizedBox(
                         height: 40,
                       ),
-                      isLoading
-                          ? CircularProgressIndicator()
-                          : DefaultBtn(
+                      BlocConsumer<LoginCubit, LoginState>(
+                        listener: (context, state) {
+                          if (state is LoginErrorState) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text(
+                                  state.error,
+                                  style: TextStyle(color: Colors.white),
+                                )));
+                          }
+                          else if(state is LoginSuccessState){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text(
+                                  'Login Success\nWelcome ${state.userModel.username}',
+                                  style: TextStyle(color: Colors.white),
+                                )));
+                            // TODO: goTo(context, HomeView());
+                            goTo(context, HomeView(),
+                                NavigatorType.pushAndRemoveUntil);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is LoginLoadingState) {
+                            return CircularProgressIndicator();
+                          }
+                          return DefaultBtn(
                               text: 'Login',
-                              onTap: () {
-                                if (formKey.currentState?.validate() == true) {
-                                  // login();
-                                }
-                              })
+                              onTap: LoginCubit.get(context).onLoginPressed);
+                        },
+                      )
                     ],
                   ),
                 ),
               ],
             ),
-          ),
-        );
-      }
+          );
+        }),
+      ),
     );
   }
 
-  // login() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //
-  //   // right
-  //   var response = await ApiHelper.post(
-  //     endPoint: 'login',
-  //     data: {'username': username.text, 'password': password.text},
-  //   );
-  //   response.fold(
-  //     (error) {
-  //       setState(() {
-  //         isLoading = false;
-  //       });
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           backgroundColor: Colors.red,
-  //           content: Text(
-  //             error,
-  //             style: TextStyle(color: Colors.white),
-  //           )));
-  //     },
-  //     (map)async {
-  //       await CacheHelper.setValue(
-  //         key: CacheKeys.accessToken,
-  //         value: map[CacheKeys.accessToken]
-  //       );
-  //       await CacheHelper.setValue(
-  //         key: CacheKeys.refreshToken,
-  //         value: map[CacheKeys.refreshToken]
-  //       );
-  //
-  //       setState(() {
-  //         isLoading = false;
-  //       });
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           backgroundColor: Colors.green,
-  //           content: Text(
-  //             'Login Success',
-  //             style: TextStyle(color: Colors.white),
-  //           )));
-  //       // TODO: goTo(context, HomeView());
-  //       goTo(context, HomeView(), NavigatorType.pushAndRemoveUntil);
-  //     }
-  //   );
-  //
-  // }
 }
