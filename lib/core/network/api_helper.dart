@@ -49,6 +49,25 @@ abstract class ApiHelper {
               await CacheHelper.setValue(key: CacheKeys.accessToken, value: map['access_token']);
               var oldOptions = error.requestOptions;
               oldOptions.headers['Authorization'] = 'Bearer ${CacheHelper.getValue(CacheKeys.accessToken)}';
+              // recreate form data fields
+              final options = error.requestOptions;
+              if (options.data is FormData) {
+                final oldFormData = options.data as FormData;
+
+                // Convert FormData to map so it can be rebuilt
+                final Map<String, dynamic> formMap = {};
+                for (var entry in oldFormData.fields) {
+                  formMap[entry.key] = entry.value;
+                }
+
+                // Add files if any
+                for (var file in oldFormData.files) {
+                  formMap[file.key] = file.value;
+                }
+
+                // Rebuild new FormData
+                options.data = FormData.fromMap(formMap);
+              }
               var newResponse = await dio.fetch(oldOptions);
               return handler.resolve(newResponse);
             }

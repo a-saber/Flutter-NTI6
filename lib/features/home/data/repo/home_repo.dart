@@ -25,17 +25,17 @@ class HomeRepo {
     var taskModel = TaskModel(title: title, description: description);
     var result = await ApiHelper.post(
         endPoint: EndPoints.newTask,
-        data: taskModel.toJson(),
+        data: await taskModel.toJson(),
         isProtected: true);
     return result.fold((error) => left(error), (map) {
       return right(map['message']);
     });
   }
 
-  Future<Either<String, String>> updateTask({required TaskModel taskModel}) async {
+  Future<Either<String, String>> updateTask({required TaskModel taskModel, String? fileImagePath}) async {
     var result = await ApiHelper.put(
         endPoint: EndPoints.updateTask(taskId: taskModel.id),
-        data: taskModel.toJson(),
+        data: await taskModel.toJson(imagePath: fileImagePath),
         isProtected: true
     );
     return result.fold((error) => left(error), (map) {

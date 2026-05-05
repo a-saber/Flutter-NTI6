@@ -8,7 +8,11 @@ class DefaultTextField extends StatelessWidget {
         this.suffixIcon,
         this.obscureText = false,
         required this.controller,
-        this.validator});
+        this.validator,
+        this.enabled= true,
+        this.readOnly = false,
+        this.onTap
+      });
 
   final String hintText;
   final IconData? prefixIconData;
@@ -16,10 +20,15 @@ class DefaultTextField extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-
+  final bool enabled;
+  final bool readOnly;
+  final  void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      enabled: enabled,
+      readOnly: readOnly,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validator,
       controller: controller,

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 class GetTasksResponseModel {
   bool? status;
   List<TaskModel>? tasks;
@@ -42,10 +44,11 @@ class TaskModel {
     title = json['title'];
   }
 
-  Map<String, dynamic> toJson() {
+  Future<Map<String, dynamic>> toJson({String? imagePath}) async{
     return {
       'title': title,
       'description': description,
+      if(imagePath != null) 'image': await MultipartFile.fromFile(imagePath)
     };
   }
 }

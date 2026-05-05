@@ -43,6 +43,8 @@ dependencies:
   get:
   google_maps_flutter:
   geolocator: ^13.0.2
+  fluttertoast: ^8.2.10
+  image_picker:
 
 dev_dependencies:
   flutter_test:
