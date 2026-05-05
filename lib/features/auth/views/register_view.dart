@@ -133,36 +133,36 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(
                         height: 40,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          goTo(context, LoginView());
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Already Have An Account?',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w200),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Login',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     goTo(context, LoginView());
+                      //   },
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Text(
+                      //         'Already Have An Account?',
+                      //         style: TextStyle(
+                      //             fontSize: 14,
+                      //             color: Colors.black,
+                      //             fontWeight: FontWeight.w200),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       Text(
+                      //         'Login',
+                      //         style: TextStyle(
+                      //             color: Colors.black,
+                      //             fontSize: 14,
+                      //             fontWeight: FontWeight.w400),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
                     ],
                   ),
                 ),

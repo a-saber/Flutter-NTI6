@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_nti6/core/cache/cache_helper.dart';
 import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/network/api_helper.dart';
+import 'package:flutter_nti6/core/translation/translation_keys.dart';
 import 'package:flutter_nti6/features/auth/cubit/login/login_cubit.dart';
 import 'package:flutter_nti6/features/auth/cubit/login/login_state.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import '../../../core/components/default_flag_image.dart';
 import '../../../core/components/default_text_field.dart';
 import '../../../core/helper/custom_navigator.dart';
 import '../../home/views/home_view.dart';
+import 'register_view.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -38,7 +40,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       DefaultTextField(
                         controller: LoginCubit.get(context).username,
-                        hintText: 'username'.tr,
+                        hintText: TranslationKeys.username.tr,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter username';
@@ -51,7 +53,7 @@ class LoginView extends StatelessWidget {
                       ),
                       DefaultTextField(
                         controller: LoginCubit.get(context).password,
-                        hintText: 'password'.tr,
+                        hintText: TranslationKeys.password.tr,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter password';
@@ -89,9 +91,22 @@ class LoginView extends StatelessWidget {
                             return CircularProgressIndicator();
                           }
                           return DefaultBtn(
-                              text: 'login'.tr,
+                              text: TranslationKeys.login.tr,
                               onTap: LoginCubit.get(context).onLoginPressed);
                         },
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(TranslationKeys.donHaveAccount.tr),
+                          TextButton(
+                            child: Text(TranslationKeys.register.tr),
+                            onPressed: () {
+                              goTo(context, RegisterView());
+                            },
+                          ),
+                        ],
                       )
                     ],
                   ),

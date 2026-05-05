@@ -125,4 +125,70 @@ abstract class ApiHelper {
       return left(errorMsg);
     }
   }
+
+  static Future<Either<String, Map<String, dynamic>>> put(
+      {required String endPoint,
+        Map<String, dynamic>? data,
+        Map<String, dynamic>? headers,
+        bool isFormData = true,
+        bool isProtected = false,
+
+      }) async {
+    try {
+      String? accessToken;
+      if (isProtected) {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        accessToken = prefs.getString('access_token');
+      }
+      var response = await dio.put(endPoint,
+          data: isFormData ? FormData.fromMap(data ?? {}) : data,
+          options: Options(headers: {
+            if (isProtected) 'Authorization': 'Bearer $accessToken',
+            ...?headers
+          }));
+      return right(response.data as Map<String, dynamic>);
+    } catch (e) {
+      print(e.toString());
+      String errorMsg = 'Something went wrong';
+      if (e is DioException) {
+        var errorResponse = e.response?.data as Map<String, dynamic>;
+        errorMsg = errorResponse['message'];
+        print(errorResponse['message']);
+      }
+      return left(errorMsg);
+    }
+  }
+  static Future<Either<String, Map<String, dynamic>>> delete(
+      {required String endPoint,
+        Map<String, dynamic>? data,
+        Map<String, dynamic>? headers,
+        bool isFormData = true,
+        bool isProtected = false,
+
+      }) async {
+    try {
+      String? accessToken;
+      if (isProtected) {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        accessToken = prefs.getString('access_token');
+      }
+      var response = await dio.delete(endPoint,
+          data: isFormData ? FormData.fromMap(data ?? {}) : data,
+          options: Options(headers: {
+            if (isProtected) 'Authorization': 'Bearer $accessToken',
+            ...?headers
+          }));
+      return right(response.data as Map<String, dynamic>);
+    } catch (e) {
+      print(e.toString());
+      String errorMsg = 'Something went wrong';
+      if (e is DioException) {
+        var errorResponse = e.response?.data as Map<String, dynamic>;
+        errorMsg = errorResponse['message'];
+        print(errorResponse['message']);
+      }
+      return left(errorMsg);
+    }
+  }
+
 }

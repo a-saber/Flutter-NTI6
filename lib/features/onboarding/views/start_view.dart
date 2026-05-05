@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nti6/core/cache/cache_helper.dart';
+import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/components/custom_svg.dart';
+import 'package:flutter_nti6/features/auth/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -42,8 +45,9 @@ class LetStartView extends StatelessWidget {
             ),
             DefaultBtn(
               text: "Let's Start",
-              onTap: (){
-                goTo(context, RegisterView());
+              onTap: ()async{
+                await CacheHelper.setValue(key: CacheKeys.firstOpen, value: false);
+                goTo(context, LoginView());
               },
             )
           ],

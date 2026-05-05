@@ -3,6 +3,7 @@ import 'package:flutter_nti6/core/cache/cache_helper.dart';
 import 'package:flutter_nti6/core/cache/cache_keys.dart';
 import 'package:flutter_nti6/core/components/custom_svg.dart';
 import 'package:flutter_nti6/core/helper/custom_navigator.dart';
+import 'package:flutter_nti6/features/auth/views/login_view.dart';
 import 'package:flutter_nti6/features/home/views/home_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,20 @@ class SplashViewState extends State<SplashView> {
       seconds: 2
     )).then((v) async{
       String? accessToken = CacheHelper.getValue(CacheKeys.accessToken) as String?;
-      goTo(context, accessToken != null? HomeView():LetStartView(), NavigatorType.pushReplacement);
+      Widget destination;
+      if(accessToken != null){
+        destination = HomeView();
+      }
+      else{
+        if(CacheHelper.getValue(CacheKeys.firstOpen) == false){
+          destination = LoginView();
+        }
+        else{
+          destination = LetStartView();
+        }
+      }
+
+      goTo(context, destination, NavigatorType.pushReplacement);
 
     });
     super.initState();

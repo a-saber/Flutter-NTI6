@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget{
         return GetMaterialApp(
           translations: TranslationHelper(),
           locale: Locale( lang ?? 'en'),
-          // home: SplashView(),
-          home: TestMaps(),
+          home: SplashView(),
+          // home: TestMaps(),
         );
       }
     );
