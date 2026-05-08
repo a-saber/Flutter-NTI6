@@ -104,13 +104,27 @@ class UpdateTaskView extends StatelessWidget {
 
                 ImageManager(
                   networkImagePath: taskModel.imagePath,
-                  onImagePicked: (selectedImagePath) {
-                    cubit.fileImagePath = selectedImagePath;
+                  onImagePicked: (fileImagePath){
+                    cubit.fileImagePath = fileImagePath;
                   },
-                   // selectedImageBuilder: (selectedImagePath){
-                   //  return Image.file(File(selectedImagePath));
-                   // }
-                   // unselectedImageBuilder: DefaultAssetImage()
+                  selectedImageBuilder: (selectedImagePath){
+                   return ClipRRect(
+                       borderRadius: BorderRadius.circular(20),
+                       child: Image.file(File(selectedImagePath), fit: BoxFit.cover,));
+                  },
+                  unselectedImageBuilder: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.25),
+                            offset: Offset(0, 4),
+                            blurRadius: 4,
+                            spreadRadius: 0)
+                      ],
+                      image: DecorationImage(image: AssetImage('assets/images/flag.png'), fit: BoxFit.cover),
+                    ),
+                  )
                 ),
 
 
