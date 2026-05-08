@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_nti6/core/components/default_btn.dart';
 import 'package:flutter_nti6/core/components/default_flag_image.dart';
 import 'package:flutter_nti6/core/components/default_text_field.dart';
+import 'package:flutter_nti6/core/components/image_manager.dart';
 import 'package:flutter_nti6/core/helper/custom_snack_bar.dart';
 import 'package:flutter_nti6/core/translation/translation_keys.dart';
 import 'package:flutter_nti6/features/home/cubit/delete_task/delete_task_cubit.dart';
@@ -99,38 +100,20 @@ class UpdateTaskView extends StatelessWidget {
             var cubit = UpdateTaskCubit.get(context);
             return SingleChildScrollView(
               child: Column(children: [
-                SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: Builder(builder: (context) {
-                    if (cubit.selectedImage != null) {
-                      return Image.file(File(cubit.selectedImage!.path));
-                    } else if (taskModel.imagePath == null) {
-                      return Image.asset(
-                        'assets/images/flag.png',
-                      );
-                    } else {
-                      return Image.network(taskModel.imagePath ?? '');
-                    }
-                  }),
+
+
+                ImageManager(
+                  networkImagePath: taskModel.imagePath,
+                  onImagePicked: (selectedImagePath) {
+                    cubit.fileImagePath = selectedImagePath;
+                  },
+                   // selectedImageBuilder: (selectedImagePath){
+                   //  return Image.file(File(selectedImagePath));
+                   // }
+                   // unselectedImageBuilder: DefaultAssetImage()
                 ),
 
-                // ImageManager(
-                //   imagePath: taskModel.imagePath,
-                //   onImagePicked: (selectedImagePath) {
-                //
-                //   },
-                //    selectedImageBuilder: (selectedImagePath){
-                //     return Image.file(File(selectedImagePath));
-                //    }
-                //    unselectedImageBuilder: DefaultAssetImage()
-                // )
 
-                TextButton(
-                    onPressed: () {
-                      cubit.pickImage();
-                    },
-                    child: Text('Pick Image')),
                 SizedBox(
                   height: 40,
                 ),

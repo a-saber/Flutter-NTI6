@@ -4,7 +4,6 @@ abstract class UpdateTaskState {}
 
 class UpdateTaskInitialState extends UpdateTaskState {}
 
-class UpdateTaskImagePickedState extends UpdateTaskState {}
 class UpdateTaskLoadingState extends UpdateTaskState {}
 
 class UpdateTaskSuccessState extends UpdateTaskState {

@@ -19,16 +19,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState>{
   var description = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
-  XFile? selectedImage;
-  pickImage()async{
-    final picker = ImagePicker();
-// Pick an image.
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if(image != null) {
-      selectedImage = image;
-      emit(UpdateTaskImagePickedState());
-    }
-  }
+  String? fileImagePath;
 
   updateTask()async{
     if(formKey.currentState?.validate() == false) return;
@@ -37,7 +28,7 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState>{
     taskModel.description = description.text;
     var result = await repo.updateTask(
       taskModel: taskModel,
-      fileImagePath: selectedImage?.path
+      fileImagePath: fileImagePath
     );
     result.fold(
         (e)=> emit(UpdateTaskErrorState(e)),
